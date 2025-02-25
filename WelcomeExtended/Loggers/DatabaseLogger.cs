@@ -1,13 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Text;
+using DataLayer.Database;
+using Microsoft.Extensions.Logging.Abstractions;
+using DataLayer.Model;
 
 namespace WelcomeExtended_.Loggers
 {
-    class UnsuccessfulLoginFileLogger : ILogger
+    class DatabaseLogger : ILogger
     {
         private readonly string _name;
-        public UnsuccessfulLoginFileLogger(string name)
+        public DatabaseLogger(string name)
         {
             _name = name;
         }
@@ -25,18 +28,18 @@ namespace WelcomeExtended_.Loggers
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
         {
             DateTime dateTime = DateTime.Now;
-            var message = formatter(state, exception);
+            string message = formatter(state, exception);
 
-            var messageToBeLogged = new StringBuilder();
-            messageToBeLogged.Append(dateTime.ToString());
-            messageToBeLogged.Append(":[" + _name + "] ");
-            messageToBeLogged.Append(message);
-
-
-            string file = "../../../Files/ErrorLog.txt";
-            using(StreamWriter sw = File.AppendText(file))
+            using (var context = new DatabaseContext())
             {
-                sw.WriteLine(messageToBeLogged);
+                var logEntry = new DatabaseLog
+                {
+                    TimeStamp = dateTime,
+                    Message = message
+                };
+
+                context.Logs.Add(logEntry);
+                context.SaveChanges();
             }
         }
     }

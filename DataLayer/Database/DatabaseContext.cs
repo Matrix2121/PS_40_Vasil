@@ -6,8 +6,10 @@ using Welcome.Others;
 
 namespace DataLayer.Database
 {
-    class DatabaseContext : DbContext
+    public class DatabaseContext : DbContext
     {
+        public DbSet<DatabaseUser> Users { get; set; }
+        public DbSet<DatabaseLog> Logs { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string solutionFolder = "C:/Users/vasko/OneDrive/TU/Курс 3, Сем 2/ПС/PS_40_Vasil";
@@ -63,7 +65,5 @@ namespace DataLayer.Database
 
             modelBuilder.Entity<DatabaseUser>().HasData(user1, user2, user3, user4, user5);
         }
-
-        public DbSet<DatabaseUser> Users { get; set; }
     }
 }

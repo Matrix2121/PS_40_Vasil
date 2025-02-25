@@ -1,4 +1,5 @@
-﻿using Welcome.Model;
+﻿using DataLayer.Database;
+using Welcome.Model;
 using Welcome.Others;
 using Welcome.View;
 using Welcome.ViewModel;
@@ -56,11 +57,18 @@ namespace WelcomeExtended
                 Console.WriteLine("Enter password: ");
                 loginPass = Console.ReadLine();
 
-                userData.ValidateUser(loginName, loginPass);
-                login = userData.GetUser(loginName, loginPass);
+                bool loginStatus = userData.ValidateUser(loginName, loginPass);
 
-                Console.WriteLine(UserHelper.ToString(login)); 
-
+                if (loginStatus)
+                {
+                    login = userData.GetUser(loginName, loginPass);
+                    Console.WriteLine("Login Successful");
+                    Console.WriteLine(UserHelper.ToString(login));
+                }
+                else
+                {
+                    Console.WriteLine("Login Unsuccessful");
+                }
             }
             catch (Exception e)
             {

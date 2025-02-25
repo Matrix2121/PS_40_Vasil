@@ -4,10 +4,12 @@ using Welcome.Model;
 
 namespace DataLayer.Model
 {
-    public class DatabaseUser : User
+    public class DatabaseLog
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public override int Id { get; set; }
+        public int Id { get; set; }
+        public DateTime TimeStamp { get; set; }
+        public string Message { get; set; }
     }
 }

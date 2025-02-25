@@ -11,8 +11,7 @@ namespace WelcomeExtended_.Helpers
     {
         public static string ToString(this User user)
         {
-            return("Name: " + user.Names + "\nSchool Number: " + user.SchoolNum
-                + "\nEmail: " + user.Email + "\nRole: " + user.Role);
+            return("Name: " + user.Names + "\nRole: " + user.Role);
         }
     }
 }

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
-using Welcome.Model;
+﻿using Welcome.Model;
 using Welcome.Others;
 using WelcomeExtended.Others;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WelcomeExtended_.Data
 {
@@ -36,23 +29,24 @@ namespace WelcomeExtended_.Data
         }
         public bool ValidateUser(string name, string password)
         {
-            var successLog = new ActionOnLogin(Delegates.LogSuccessfulLogin);
-            var unsuccessLog = new ActionOnError(Delegates.LogUnsuccessfulLogin);
+            var loginLog = new ActionOnLogin(Delegates.LogLogin);
             foreach (var user in _users)
             {
                 if(user.Names == name)
                 {
                     if (user.Names == name && user.Password != password)
                     {
-                        successLog(name,false);
+                        loginLog(name, "Wrong Password");
+                        return false;
                     }
                     else
                     {
-                        successLog(name, true);
+                        loginLog(name, "Login Successful");
                         return true;
                     }
                 }
             }
+            loginLog(name, "User not found");
             throw new Exception("This user is not found");
         }
         public bool ValidateUsserLambda(string name, string password)

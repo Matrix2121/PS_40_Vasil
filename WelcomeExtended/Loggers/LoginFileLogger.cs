@@ -1,13 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Text;
+using System.Xml.Linq;
+using Welcome.Model;
+using WelcomeExtended.Others;
 
 namespace WelcomeExtended_.Loggers
 {
-    class SuccessfulLoginFileLogger : ILogger
+    class LoginFileLogger : ILogger
     {
         private readonly string _name;
-        public SuccessfulLoginFileLogger(string name)
+        public LoginFileLogger(string name)
         {
             _name = name;
         }
@@ -32,10 +35,13 @@ namespace WelcomeExtended_.Loggers
             messageToBeLogged.Append(state);
 
             string file = "../../../Files/LoginLog.txt";
-            using(StreamWriter sw = File.AppendText(file))
+            using (StreamWriter sw = File.AppendText(file))
             {
                 sw.WriteLine(messageToBeLogged);
             }
+
+            var databaseLog = new DatabaseAction(Delegates.LogDatabase);
+            databaseLog(messageToBeLogged.ToString());
         }
     }
 }

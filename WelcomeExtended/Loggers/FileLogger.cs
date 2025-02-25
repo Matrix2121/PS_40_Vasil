@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Text;
+using WelcomeExtended.Others;
 
 namespace WelcomeExtended_.Loggers
 {
@@ -38,6 +39,9 @@ namespace WelcomeExtended_.Loggers
             {
                 sw.WriteLine(messageToBeLogged);
             }
+
+            var databaseLog = new DatabaseAction(Delegates.LogDatabase);
+            databaseLog(messageToBeLogged.ToString());
         }
     }
 }

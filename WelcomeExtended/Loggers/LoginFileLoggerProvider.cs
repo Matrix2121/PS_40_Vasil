@@ -8,11 +8,11 @@ using WelcomeExtended_.Loggers;
 
 namespace WelcomeExtended.Loggers
 {
-    class UnsuccessfulLoginFileLoggerProvider : ILoggerProvider
+    class LoginFileLoggerProvider : ILoggerProvider
     {
         public ILogger CreateLogger(string categoryName)
         {
-            return new UnsuccessfulLoginFileLogger(categoryName);
+            return new LoginFileLogger(categoryName);
         }
         public void Dispose()
         {

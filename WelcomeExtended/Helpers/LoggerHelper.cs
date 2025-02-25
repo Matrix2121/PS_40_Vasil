@@ -19,17 +19,17 @@ namespace WelcomeExtended.Helpers
 
             return loggerFactory.CreateLogger(categoryName);
         }
-        public static ILogger GetSuccessfulLoginFileLogger(string categoryName)
+        public static ILogger GetLoginFileLogger(string categoryName)
         {
             var loggerFactory = new LoggerFactory();
-            loggerFactory.AddProvider(new SuccessfulLoginFileLoggerProvider());
+            loggerFactory.AddProvider(new LoginFileLoggerProvider());
 
             return loggerFactory.CreateLogger(categoryName);
         }
-        public static ILogger GetUnsuccessfulLoginFileLogger(string categoryName)
+        public static ILogger GetDatabaseLogger(string categoryName)
         {
             var loggerFactory = new LoggerFactory();
-            loggerFactory.AddProvider(new UnsuccessfulLoginFileLoggerProvider());
+            loggerFactory.AddProvider(new DatabaseLoggerProvider());
 
             return loggerFactory.CreateLogger(categoryName);
         }

@@ -1,9 +1,6 @@
 ﻿using DataLayer.Database;
 using DataLayer.Model;
-using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
-using Welcome.Model;
-using Welcome.Others;
+using System;
 
 internal class Program
 {
@@ -63,10 +60,6 @@ internal class Program
             //        break;
             //    }
             //}
-
-
-
-
 
             var newUser = new DatabaseUser();
             string name;
@@ -140,8 +133,14 @@ internal class Program
                     break;
                 }
             }
-
             context.SaveChanges();
+
+
+            foreach (var log in context.Logs)
+            {
+                Console.WriteLine(log.TimeStamp + ": ID: " + log.Id + " Message: " + log.Message);
+            }
+            
         }
     }
 }

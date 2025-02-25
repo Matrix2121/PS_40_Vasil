@@ -8,8 +8,8 @@ namespace WelcomeExtended.Others
     {
         public static readonly ILogger consoleLogger = LoggerHelper.GetConsoleLogger("Error");
         public static readonly ILogger fileLogger = LoggerHelper.GetFileLogger("Error");
-        public static readonly ILogger successfulLoginFileLogger = LoggerHelper.GetSuccessfulLoginFileLogger("Login");
-        public static readonly ILogger unsuccessfulLoginFileLogger = LoggerHelper.GetUnsuccessfulLoginFileLogger("Login");
+        public static readonly ILogger LoginFileLogger = LoggerHelper.GetLoginFileLogger("Login");
+        public static readonly ILogger DatabseLogger = LoggerHelper.GetDatabaseLogger("Log");
 
         public static void Log(string error)
         {
@@ -22,15 +22,14 @@ namespace WelcomeExtended.Others
             Console.WriteLine($"{error}");
             Console.WriteLine("- DELEGATES -");
         }
-        public static void LogSuccessfulLogin(string user, bool state)
+        public static void LogLogin(string user, string state)
         {
-            string message = "Username: [" + user + "] - Login status: [" + (state ? "Success" : "Failed") + "]";
-            successfulLoginFileLogger.LogInformation(message);
+            string message = "Username: [" + user + "] - Login status: [" + state + "]";
+            LoginFileLogger.LogInformation(message);
         }
-        public static void LogUnsuccessfulLogin(string user)
+        public static void LogDatabase(string message)
         {
-            string message = "Username: [" + user + "] This user is not found";
-            unsuccessfulLoginFileLogger.LogInformation(message);
+            DatabseLogger.LogInformation(message);
         }
     }
 }
