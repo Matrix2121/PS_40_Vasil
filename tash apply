@@ -1,0 +1,458 @@
+[33mcommit 193bb75c4d4b62e40f870c22c289ba2f9322604b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mrecover-branch[m[33m, [m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Author: Matrix2121 <vasko10.vs38@gmail.com>
+Date:   Tue Feb 25 07:55:59 2025 +0200
+
+    Add project files.
+
+[1mdiff --git a/DataLayer/DataLayer.csproj b/DataLayer/DataLayer.csproj[m
+[1mnew file mode 100644[m
+[1mindex 0000000..589b8e2[m
+[1m--- /dev/null[m
+[1m+++ b/DataLayer/DataLayer.csproj[m
+[36m@@ -0,0 +1,29 @@[m
+[32m+[m[32m﻿<Project Sdk="Microsoft.NET.Sdk">[m
+[32m+[m
+[32m+[m[32m  <PropertyGroup>[m
+[32m+[m[32m    <OutputType>Exe</OutputType>[m
+[32m+[m[32m    <TargetFramework>net8.0</TargetFramework>[m
+[32m+[m[32m    <ImplicitUsings>enable</ImplicitUsings>[m
+[32m+[m[32m    <Nullable>enable</Nullable>[m
+[32m+[m[32m  </PropertyGroup>[m
+[32m+[m
+[32m+[m[32m  <ItemGroup>[m
+[32m+[m[32m    <Compile Remove="NewFolder\**" />[m
+[32m+[m[32m    <EmbeddedResource Remove="NewFolder\**" />[m
+[32m+[m[32m    <None Remove="NewFolder\**" />[m
+[32m+[m[32m  </ItemGroup>[m
+[32m+[m
+[32m+[m[32m  <ItemGroup>[m
+[32m+[m[32m    <ProjectReference Include="..\Welcome\Welcome.csproj" />[m
+[32m+[m[32m  </ItemGroup>[m
+[32m+[m
+[32m+[m[32m  <ItemGroup>[m
+[32m+[m[32m    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />[m
+[32m+[m[32m    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.2" />[m
+[32m+[m[32m    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.2">[m
+[32m+[m[32m      <PrivateAssets>all</PrivateAssets>[m
+[32m+[m[32m      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>[m
+[32m+[m[32m    </PackageReference>[m
+[32m+[m[32m  </ItemGroup>[m
+[32m+[m
+[32m+[m[32m</Project>[m
+[1mdiff --git a/DataLayer/Database/DatabaseContext.cs b/DataLayer/Database/DatabaseContext.cs[m
+[1mnew file mode 100644[m
+[1mindex 0000000..02147eb[m
+[1m--- /dev/null[m
+[1m+++ b/DataLayer/Database/DatabaseContext.cs[m
+[36m@@ -0,0 +1,67 @@[m
+[32m+[m[32m﻿using DataLayer.Model;[m
+[32m+[m[32musing Microsoft.EntityFrameworkCore;[m
+[32m+[m[32musing Welcome.Others;[m
+[32m+[m
+[32m+[m[32mnamespace DataLayer.Database[m
+[32m+[m[32m{[m
+[32m+[m[32m    class DatabaseContext : DbContext[m
+[32m+[m[32m    {[m
+[32m+[m[32m        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)[m
+[32m+[m[32m        {[m
+[32m+[m[32m            string solutionFolder = "C:/Users/vasko/OneDrive/TU/Курс 3, Сем 2/ПС/PS_40_Vasil";[m
+[32m+[m[32m            string databaseFile = "Welcome.db";[m
+[32m+[m[32m            string databasePath = Path.Combine(solutionFolder, databaseFile);[m
+[32m+[m[32m            optionsBuilder.UseSqlite($"Data Source={databasePath}");[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        protected override void OnModelCreating(ModelBuilder modelBuilder)[m
+[32m+[m[32m        {[m
+[32m+[m[32m            modelBuilder.Entity<DatabaseUser>().Property(e => e.Id).ValueGeneratedOnAdd();[m
+[32m+[m
+[32m+[m[32m            var user1 = new DatabaseUser()[m
+[32m+[m[32m            {[m
+[32m+[m[32m                Id = 1,[m
+[32m+[m[32m                Names = "John Doe",[m
+[32m+[m[32m                Password = "1234",[m
+[32m+[m[32m                Role = UserRolesEnum.ADMIN,[m
+[32m+[m[32m                Expires = DateTime.Now.AddYears(10)[m
+[32m+[m[32m            };[m
+[32m+[m[32m            var user2 = new DatabaseUser()[m
+[32m+[m[32m            {[m
+[32m+[m[32m                Id = 2,[m
+[32m+[m[32m                Names = "Az Azov",[m
+[32m+[m[32m                Password = "123",[m
+[32m+[m[32m                Role = UserRolesEnum.PROFESSOR,[m
+[32m+[m[32m                Expires = DateTime.Now.AddDays(25)[m
+[32m+[m[32m            };[m
+[32m+[m[32m            var user3 = new DatabaseUser()[m
+[32m+[m[32m            {[m
+[32m+[m[32m                Id = 3,[m
+[32m+[m[32m                Names = "asd",[m
+[32m+[m[32m                Password = "asd",[m
+[32m+[m[32m                Role = UserRolesEnum.STUDENT,[m
+[32m+[m[32m                Expires = DateTime.Now.AddMonths(4)[m
+[32m+[m[32m            };[m
+[32m+[m[32m            var user4 = new DatabaseUser()[m
+[32m+[m[32m            {[m
+[32m+[m[32m                Id = 4,[m
+[32m+[m[32m                Names = "Nateg",[m
+[32m+[m[32m                Password = "gad",[m
+[32m+[m[32m                Role = UserRolesEnum.INSPECTOR,[m
+[32m+[m[32m                Expires = DateTime.Now.AddYears(1)[m
+[32m+[m[32m            };[m
+[32m+[m[32m            var user5 = new DatabaseUser()[m
+[32m+[m[32m            {[m
+[32m+[m[32m                Id = 5,[m
+[32m+[m[32m                Names = "Nekuv Drug",[m
+[32m+[m[32m                Password = "321",[m
+[32m+[m[32m                Role = UserRolesEnum.ANONUMOUS,[m
+[32m+[m[32m                Expires = DateTime.Now.AddMonths(2)[m
+[32m+[m[32m            };[m
+[32m+[m
+[32m+[m[32m            modelBuilder.Entity<DatabaseUser>().HasData(user1, user2, user3, user4, user5);[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        public DbSet<DatabaseUser> Users { get; set; }[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+[1mdiff --git a/DataLayer/Model/DatabaseUser.cs b/DataLayer/Model/DatabaseUser.cs[m
+[1mnew file mode 100644[m
+[1mindex 0000000..1d5b214[m
+[1m--- /dev/null[m
+[1m+++ b/DataLayer/Model/DatabaseUser.cs[m
+[36m@@ -0,0 +1,13 @@[m
+[32m+[m[32m﻿using System.ComponentModel.DataAnnotations;[m
+[32m+[m[32musing System.ComponentModel.DataAnnotations.Schema;[m
+[32m+[m[32musing Welcome.Model;[m
+[32m+[m
+[32m+[m[32mnamespace DataLayer.Model[m
+[32m+[m[32m{[m
+[32m+[m[32m    class DatabaseUser : User[m
+[32m+[m[32m    {[m
+[32m+[m[32m        [Key][m
+[32m+[m[32m        [DatabaseGenerated(DatabaseGeneratedOption.Identity)][m
+[32m+[m[32m        public override int Id { get; set; }[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+[1mdiff --git a/DataLayer/Program.cs b/DataLayer/Program.cs[m
+[1mnew file mode 100644[m
+[1mindex 0000000..a0b563e[m
+[1m--- /dev/null[m
+[1m+++ b/DataLayer/Program.cs[m
+[36m@@ -0,0 +1,67 @@[m
+[32m+[m[32m﻿using DataLayer.Database;[m
+[32m+[m[32musing DataLayer.Model;[m
+[32m+[m[32musing System.ComponentModel.DataAnnotations;[m
+[32m+[m[32musing System.Xml.Linq;[m
+[32m+[m[32musing Welcome.Model;[m
+[32m+[m[32musing Welcome.Others;[m
+[32m+[m
+[32m+[m[32minternal class Program[m
+[32m+[m[32m{[m
+[32m+[m[32m    private static void Main(string[] args)[m
+[32m+[m[32m    {[m
+[32m+[m[32m        using (var context = new DatabaseContext())[m
+[32m+[m[32m        {[m
+[32m+[m[32m            context.Database.EnsureCreated();[m
+[32m+[m[32m            context.Add<DatabaseUser>(new DatabaseUser()[m
+[32m+[m[32m            {[m
+[32m+[m[32m                Names = "user",[m
+[32m+[m[32m                Password = "passsword",[m
+[32m+[m[32m                Expires = DateTime.Now,[m
+[32m+[m[32m                Role = UserRolesEnum.STUDENT[m
+[32m+[m[32m            });[m
+[32m+[m[32m            context.SaveChanges();[m
+[32m+[m[32m            var users = context.Users.ToList();[m
+[32m+[m
+[32m+[m[32m            User login = new User();[m
+[32m+[m[32m            string loginName;[m
+[32m+[m[32m            string loginPass;[m
+[32m+[m
+[32m+[m[32m            while (true)[m
+[32m+[m[32m            {[m
+[32m+[m[32m                Console.WriteLine("Enter name: ");[m
+[32m+[m[32m                loginName = Console.ReadLine();[m
+[32m+[m
+[32m+[m[32m                if (loginName.Equals("exit"))[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    break;[m
+[32m+[m[32m                }[m
+[32m+[m
+[32m+[m[32m                Console.WriteLine("Enter password: ");[m
+[32m+[m[32m                loginPass = Console.ReadLine();[m
+[32m+[m
+[32m+[m[32m                if (loginPass.Equals("exit"))[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    break;[m
+[32m+[m[32m                }[m
+[32m+[m
+[32m+[m[32m                var user = (from user1 in users[m
+[32m+[m[32m                           where user1.Names == loginName && user1.Password == loginPass[m
+[32m+[m[32m                           select user1).FirstOrDefault();[m
+[32m+[m
+[32m+[m[32m                if (user != null)[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    Console.WriteLine("User exists");[m
+[32m+[m[32m                }[m
+[32m+[m[32m                else[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    Console.WriteLine("User doesn't exist");[m
+[32m+[m[32m                }[m
+[32m+[m
+[32m+[m[32m                if (loginName.Equals("exit") || loginPass.Equals("exit"))[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    break;[m
+[32m+[m[32m                }[m
+[32m+[m[32m            }[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
+[1mdiff --git a/PS_40_Vasil.sln b/PS_40_Vasil.sln[m
+[1mnew file mode 100644[m
+[1mindex 0000000..3f50685[m
+[1m--- /dev/null[m
+[1m+++ b/PS_40_Vasil.sln[m
+[36m@@ -0,0 +1,37 @@[m
+[32m+[m[32m﻿[m
+[32m+[m[32mMicrosoft Visual Studio Solution File, Format Version 12.00[m
+[32m+[m[32m# Visual Studio Version 17[m
+[32m+[m[32mVisualStudioVersion = 17.13.35818.85[m
+[32m+[m[32mMinimumVisualStudioVersion = 10.0.40219.1[m
+[32m+[m[32mProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Welcome", "Welcome\Welcome.csproj", "{D280B31B-73C3-4AE2-89FA-E2AA6F1E7D98}"[m
+[32m+[m[32mEndProject[m
+[32m+[m[32mProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WelcomeExtended", "WelcomeExtended\WelcomeExtended.csproj", "{05600320-DE6A-4FF0-A255-D8D6BE1AA70B}"[m
+[32m+[m[32mEndProject[m
+[32m+[m[32mProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{973F697A-63B8-40D0-BD14-502F20EE2AD9}"[m
+[32m+[m[32mEndProject[m
+[32m+[m[32mGlobal[m
+[32m+[m	[32mGlobalSection(SolutionConfigurationPlatforms) = preSolution[m
+[32m+[m		[32mDebug|Any CPU = Debug|Any CPU[m
+[32m+[m		[32mRelease|Any CPU = Release|Any CPU[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m	[32mGlobalSection(ProjectConfigurationPlatforms) = postSolution[m
+[32m+[m		[32m{D280B31B-73C3-4AE2-89FA-E2AA6F1E7D98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU[m
+[32m+[m		[32m{D280B31B-73C3-4AE2-89FA-E2AA6F1E7D98}.Debug|Any CPU.Build.0 = Debug|Any CPU[m
+[32m+[m		[32m{D280B31B-73C3-4AE2-89FA-E2AA6F1E7D98}.Release|Any CPU.ActiveCfg = Release|Any CPU[m
+[32m+[m		[32m{D280B31B-73C3-4AE2-89FA-E2AA6F1E7D98}.Release|Any CPU.Build.0 = Release|Any CPU[m
+[32m+[m		[32m{05600320-DE6A-4FF0-A255-D8D6BE1AA70B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU[m
+[32m+[m		[32m{05600320-DE6A-4FF0-A255-D8D6BE1AA70B}.Debug|Any CPU.Build.0 = Debug|Any CPU[m
+[32m+[m		[32m{05600320-DE6A-4FF0-A255-D8D6BE1AA70B}.Release|Any CPU.ActiveCfg = Release|Any CPU[m
+[32m+[m		[32m{05600320-DE6A-4FF0-A255-D8D6BE1AA70B}.Release|Any CPU.Build.0 = Release|Any CPU[m
+[32m+[m		[32m{973F697A-63B8-40D0-BD14-502F20EE2AD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU[m
+[32m+[m		[32m{973F697A-63B8-40D0-BD14-502F20EE2AD9}.Debug|Any CPU.Build.0 = Debug|Any CPU[m
+[32m+[m		[32m{973F697A-63B8-40D0-BD14-502F20EE2AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU[m
+[32m+[m		[32m{973F697A-63B8-40D0-BD14-502F20EE2AD9}.Release|Any CPU.Build.0 = Release|Any CPU[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m	[32mGlobalSection(SolutionProperties) = preSolution[m
+[32m+[m		[32mHideSolutionNode = FALSE[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m	[32mGlobalSection(ExtensibilityGlobals) = postSolution[m
+[32m+[m		[32mSolutionGuid = {E74FF3A2-1FE2-4D46-98C4-47C4D55A159F}[m
+[32m+[m	[32mEndGlobalSection[m
+[32m+[m[32mEndGlobal[m
+[1mdiff --git a/Welcome.db b/Welcome.db[m
+[1mnew file mode 100644[m
+[1mindex 0000000..4a551e7[m
+Binary files /dev/null and b/Welcome.db differ
+[1mdiff --git a/Welcome/Model/User.cs b/Welcome/Model/User.cs[m
+[1mnew file mode 100644[m
+[1mindex 0000000..eb536d2[m
+[1m--- /dev/null[m
+[1m+++ b/Welcome/Model/User.cs[m
+[36m@@ -0,0 +1,116 @@[m
+[32m+[m[32m﻿using Welcome.Others;[m
+[32m+[m[32mnamespace Welcome.Model[m
+[32m+[m[32m{[m
+[32m+[m[32m    public class User[m
+[32m+[m[32m    {[m
+[32m+[m[32m        private string _names;[m
+[32m+[m[32m        private int _id;[m
+[32m+[m[32m        private string _password;[m
+[32m+[m[32m        private UserRolesEnum _role;[m
+[32m+[m[32m        private DateTime _expires;[m
+[32m+[m
+[32m+[m[32m        public User(string names, string schoolNum, string password, UserRolesEnum role)[m
+[32m+[m[32m        {[m
+[32m+[m[32m            _names = names;[m
+[32m+[m
+[32m+[m[32m            string tempPass = password;[m
+[32m+[m[32m            int lenght = tempPass.Length;[m
+[32m+[m[32m            char[] charArr = new char[lenght * 2 + 1];[m
+[32m+[m
+[32m+[m[32m            for (int i = 0; i < lenght; i++)[m
+[32m+[m[32m            {[m
+[32m+[m[32m                charArr[i * 2 + 1] = tempPass[i];[m
+[32m+[m[32m                charArr[i * 2] = '$';[m
+[32m+[m[32m            }[m
+[32m+[m
+[32m+[m[32m            charArr[lenght * 2] = '$';[m
+[32m+[m
+[32m+[m[32m            string cryptedPass = new(charArr);[m
+[32m+[m[32m            _password = cryptedPass;[m
+[32m+[m
+[32m+[m[32m            _role = role;[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        public User(string names, string password, UserRolesEnum role)[m
+[32m+[m[32m        {[m
+[32m+[m[32m            _names = names;[m
+[32m+[m
+[32m+[m[32m            string tempPass = password;[m
+[32m+[m[32m            int lenght = tempPass.Length;[m
+[32m+[m[32m            char[] charArr = new char[lenght * 2 + 1];[m
+[32m+[m
+[32m+[m[32m            for (int i = 0; i < lenght; i++)[m
+[32m+[m[32m            {[m
+[32m+[m[32m                charArr[i * 2 + 1] = tempPass[i];[m
+[32m+[m[32m                charArr[i * 2] = '$';[m
+[32m+[m[32m            }[m
+[32m+[m
+[32m+[m[32m            charArr[lenght * 2] = '$';[m
+[32m+[m
+[32m+[m[32m            string cryptedPass = new(charArr);[m
+[32m+[m[32m            _password = cryptedPass;[m
+[32m+[m
+[32m+[m[32m            _role = role;[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        public User()[m
+[32m+[m[32m        {[m
+[32m+[m
+[32m+[m[32m        }[m
+[32m+[m[32m        public string Names {[m[41m [m
+[32m+[m[32m            get { return _names; }[m[41m [m
+[32m+[m[32m            set { _names = value; }[m[41m [m
+[32m+[m[32m        }[m
+[32m+[m[32m        public string Password[m
+[32m+[m[32m        {[m
+[32m+[m[32m            get[m
+[32m+[m[32m            {[m[41m [m
+[32m+[m[32m                string cryptedPass = _password;[m
+[32m+[m[32m                int lenght = (cryptedPass.Length - 1) / 2;[m
+[32m+[m[32m                char[] passCharArr = new char[lenght];[m
+[32m+[m
+[32m+[m[32m                for (int i = 0; i < lenght; i++)[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    passCharArr[i] = cryptedPass[i * 2 + 1];[m
+[32m+[m[32m                }[m
+[32m+[m
+[32m+[m[32m                string decryptedPass = new(passCharArr);[m
+[32m+[m[32m                return decryptedPass;[m
+[32m+[m
+[32m+[m[32m            }[m
+[32m+[m
+[32m+[m[32m            set[m[41m [m
+[32m+[m[32m            {[m
+[32m+[m[32m                string tempPass = value;[m
+[32m+[m[32m                int lenght = tempPass.Length;[m
+[32m+[m[32m                char[] charArr = new char[lenght * 2 + 1];[m
+[32m+[m
+[32m+[m[32m                for (int i = 0; i < lenght; i++)[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    charArr[i * 2 + 1] = tempPass[i];[m
+[32m+[m[32m                    charArr[i * 2] = '$';[m
+[32m+[m[32m                }[m
+[32m+[m
+[32m+[m[32m                charArr[lenght * 2] = '$';[m
+[32m+[m
+[32m+[m[32m                string cryptedPass = new(charArr);[m
+[32m+[m[32m                _password = cryptedPass;[m
+[32m+[m[32m            }[m
+[32m+[m[32m        }[m
+[32m+[m[32m        public UserRolesEnum Role[m
+[32m+[m[32m        {[m
+[32m+[m[32m            get { return _role; }[m
+[32m+[m[32m            set { _role = value; }[m
+[32m+[m[32m        }[m
+[32m+[m[32m        public DateTime Expires[m
+[32m+[m[32m        {[m
+[32m+[m[32m            get { return _expires; }[m
+[32m+[m[32m            set { _expires = value; }[m
+[32m+[m[32m        }[m
+[32m+[m[32m        public virtual int Id[m
+[32m+[m[32m        {[m
+[32m+[m[32m            get { return _id; }[m
+[32m+[m[32m            set { _id = value; }[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+[1mdiff --git a/Welcome/Others/UserRolesEnum.cs b/Welcome/Others/UserRolesEnum.cs[m
+[1mnew file mode 100644[m
+[1mindex 0000000..b5ef76d[m
+[1m--- /dev/null[m
+[1m+++ b/Welcome/Others/UserRolesEnum.cs[m
+[36m@@ -0,0 +1,17 @@[m
+[32m+[m[32m﻿using System;[m
+[32m+[m[32musing System.Collections.Generic;[m
+[32m+[m[32musing System.Linq;[m
+[32m+[m[32musing System.Text;[m
+[32m+[m[32musing System.Threading.Tasks;[m
+[32m+[m
+[32m+[m[32mnamespace Welcome.Others[m
+[32m+[m[32m{[m
+[32m+[m[32m    public enum UserRolesEnum[m
+[32m+[m[32m    {[m
+[32m+[m[32m        ANONUMOUS,[m
+[32m+[m[32m        ADMIN,[m
+[32m+[m[32m        INSPECTOR,[m
+[32m+[m[32m        PROFESSOR,[m
+[32m+[m[32m        STUDENT[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+[1mdiff --git a/Welcome/Program.cs b/Welcome/Program.cs[m
+[1mnew file mode 100644[m
+[1mindex 0000000..229097d[m
+[1m--- /dev/null[m
+[1m+++ b/Welcome/Program.cs[m
+[36m@@ -0,0 +1,22 @@[m
+[32m+[m[32m﻿using Welcome.Model;[m
+[32m+[m[32musing Welcome.View;[m
+[32m+[m[32musing Welcome.ViewModel;[m
+[32m+[m[32musing Welcome.Others;[m
+[32m+[m[32mnamespace Welcome[m
+[32m+[m[32m{[m
+[32m+[m[32m    internal class Program[m
+[32m+[m[32m    {[m
+[32m+[m[32m        static void Main(string[] args)[m
+[32m+[m[32m        {[m
+[32m+[m[32m            User user = new("Vasil Stoykov", "121222094", "pass", UserRolesEnum.STUDENT);[m
+[32m+[m[32m            UserViewModel userViewModel = new(user);[m
+[32m+[m[32m            UserView userView = new(userViewModel);[m
+[32m+[m
+[32m+[m[32m            userView.Display();[m
+[32m+[m
+[32m+[m[32m            userView.DisplayAll();[m
+[32m+[m
+[32m+[m[32m            Console.ReadKey();[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+[1mdiff --git a/Welcome/View/UserView.cs b/Welcome/View/UserView.cs[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f93f3a8[m
+[1m--- /dev/null[m
+[1m+++ b/Welcome/View/UserView.cs[m
+[36m@@ -0,0 +1,39 @@[m
+[32m+[m[32m﻿using Welcome.Others;[m
+[32m+[m[32musing Welcome.ViewModel;[m
+[32m+[m
+[32m+[m[32mnamespace Welcome.View[m
+[32m+[m[32m{[m
+[32m+[m[32m    public class UserView[m
+[32m+[m[32m    {[m
+[32m+[m[32m        private UserViewModel _viewModel;[m
+[32m+[m
+[32m+[m[32m        public UserView(UserViewModel viewModel)[m
+[32m+[m[32m        {[m
+[32m+[m[32m            _viewModel = viewModel;[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        public void Display()[m
+[32m+[m[32m        {[m
+[32m+[m[32m            string name = _viewModel.Names;[m
+[32m+[m[32m            UserRolesEnum role = _viewModel.Role;[m
+[32m+[m
+[32m+[m[32m            Console.WriteLine("\nWelcome\nUser: {" + name + "}\nRole: {" + role + "}");[m
+[32m+[m[32m        }[m
+[32m+[m[32m        public void DisplayAll()[m
+[32m+[m[32m        {[m
+[32m+[m[32m            string name = _viewModel.Names;[m
+[32m+[m[32m            UserRolesEnum role =
