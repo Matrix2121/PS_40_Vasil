@@ -27,6 +27,7 @@ namespace UI.Components
             using(var context = new DatabaseContext())
             {
                 var records = context.Users.ToList();
+                students.Items.Clear();
                 students.ItemsSource = records;
             }
         }
