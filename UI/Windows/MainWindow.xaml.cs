@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UI.Windows;
 
 namespace UI;
 
@@ -19,5 +20,11 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+    }
+
+    private void OpenLogWindow_Click(object sender, RoutedEventArgs e)
+    {
+        LogsWindow newWindow = new LogsWindow();
+        newWindow.Show();
     }
 }
