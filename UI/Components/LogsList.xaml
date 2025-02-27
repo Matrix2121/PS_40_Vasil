@@ -11,7 +11,13 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="#" IsReadOnly="True" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="TimeStamp" IsReadOnly="True" Binding="{Binding TimeStamp}"/>
-                <DataGridTextColumn Header="Message" IsReadOnly="True" Binding="{Binding Message}"/>
+                <DataGridTemplateColumn Header="Message">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="View" Click="OpenMessage_Click" Tag="{Binding Message}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

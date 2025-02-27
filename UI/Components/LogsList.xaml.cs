@@ -1,4 +1,5 @@
 ﻿using DataLayer.Database;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace UI.Components
@@ -13,22 +14,21 @@ namespace UI.Components
             InitializeComponent();
             LoadData();
         }
-
         private void LoadData()
         {
             using (var context = new DatabaseContext())
             {
                 var records = context.Logs.ToList();
-
-                foreach (var log in records)
-                {
-                    Console.WriteLine($"ID: {log.Id}, Time: {log.TimeStamp}, Message: {log.Message}");
-                }
-
                 logs.Items.Clear();
                 logs.ItemsSource = records;
             }
         }
-
+        private void OpenMessage_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is string message)
+            {
+                MessageBox.Show(message, "Log Message", MessageBoxButton.OK);
+            }
+        }
     }
 }
