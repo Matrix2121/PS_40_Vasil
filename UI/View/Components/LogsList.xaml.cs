@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace UI.Components
+namespace UI.View.Components
 {
     /// <summary>
     /// Interaction logic for LogsList.xaml

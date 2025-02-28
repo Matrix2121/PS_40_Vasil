@@ -1,11 +1,8 @@
 ﻿using DataLayer.Database;
 using System.Windows.Controls;
 
-namespace UI.Components
+namespace UI.View.Components
 {
-    /// <summary>
-    /// Interaction logic for StudentsList.xaml
-    /// </summary>
     public partial class StudentsList : UserControl
     {
         public StudentsList()

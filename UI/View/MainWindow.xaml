@@ -1,10 +1,10 @@
-﻿<Window x:Class="UI.MainWindow"
+﻿<Window x:Class="UI.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:UI"
-        xmlns:local2="clr-namespace:UI.Components"
+        xmlns:local="clr-namespace:UI.View"
+        xmlns:local2="clr-namespace:UI.View.Components"
         mc:Ignorable="d"
         Title="List of all students" Height="450" Width="800"
         WindowStartupLocation="CenterScreen">
