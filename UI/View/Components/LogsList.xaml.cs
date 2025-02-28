@@ -1,14 +1,13 @@
 ﻿using DataLayer.Database;
 using System.Windows;
 using System.Windows.Controls;
+using UI.ViewModel;
 
 namespace UI.View.Components
 {
-    /// <summary>
-    /// Interaction logic for LogsList.xaml
-    /// </summary>
     public partial class LogsList : UserControl
     {
+        private LogsListViewModel viewModel = new LogsListViewModel();
         public LogsList()
         {
             InitializeComponent();
@@ -16,19 +15,12 @@ namespace UI.View.Components
         }
         private void LoadData()
         {
-            using (var context = new DatabaseContext())
-            {
-                var records = context.Logs.ToList();
-                logs.Items.Clear();
-                logs.ItemsSource = records;
-            }
+            logs.Items.Clear();
+            logs.ItemsSource = viewModel.Records;
         }
         private void OpenMessage_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.Tag is string message)
-            {
-                MessageBox.Show(message, "Log Message", MessageBoxButton.OK);
-            }
+            viewModel.Show(sender, e);
         }
     }
 }

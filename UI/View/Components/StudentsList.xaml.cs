@@ -1,19 +1,22 @@
 ﻿using DataLayer.Database;
 using System.Windows.Controls;
+using UI.ViewModel;
 
 namespace UI.View.Components
 {
     public partial class StudentsList : UserControl
     {
+        private StudentsListViewModel viewModel = new StudentsListViewModel();
+
         public StudentsList()
         {
             InitializeComponent();
-            using(var context = new DatabaseContext())
-            {
-                var records = context.Users.ToList();
-                students.Items.Clear();
-                students.ItemsSource = records;
-            }
+            LoadData();
+        }
+        private void LoadData()
+        {
+            students.Items.Clear();
+            students.ItemsSource = viewModel.Records;
         }
     }
 }
